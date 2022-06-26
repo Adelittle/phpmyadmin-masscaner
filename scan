@@ -1,0 +1,29 @@
+
+#!/bin/bash
+# Mass Scanner By Adelittle
+#0byte,IDX,ISD-Team
+LISTS=$1
+
+if [[ ! -f ${LISTS} ]]; then
+	echo "ERROR: ${LISTS} not found"
+	echo "usage: bash $0 list.txt"
+	exit
+fi
+
+list(){
+	IFS=$'\n'
+	for SITE in $(cat $LISTS); do
+		echo "Scanning >>> ${SITE}"
+			for vuln in $(cat vuln.txt); do
+			string=$(echo $vuln | cut -f 1 | tr -d '\r');
+
+		
+	if [[ $(curl --connect-timeout 5 --max-time 5 -A "Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-N920C Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/6.2 Chrome/56.0.2924.87 Mobile Safari/537.36" -I -s "${SITE}${string}" ) =~ 'pma_username' ]]; then
+		echo "[+] VULN: ${SITE}${string}"
+	else
+		echo "NOT VULN: ${SITE}${string}"
+	fi
+			done
+	done
+}
+list
