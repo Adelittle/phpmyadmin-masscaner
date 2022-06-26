@@ -20,6 +20,7 @@ list(){
 		
 	if [[ $(curl --connect-timeout 5 --max-time 5 -A "Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-N920C Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/6.2 Chrome/56.0.2924.87 Mobile Safari/537.36" -L -s "${SITE}${string}" ) =~ 'pma_username' ]]; then
 		echo "[+] VULN: ${SITE}${string}"
+		echo "[+] VULN: ${SITE}${string}" >> result.txt
 	else
 		echo "NOT VULN: ${SITE}${string}"
 	fi
